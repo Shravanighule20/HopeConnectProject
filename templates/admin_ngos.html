@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>NGOs</h2>
+
+<table class="table table-bordered mt-4">
+
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Email</th>
+</tr>
+
+{% for ngo in ngos %}
+
+<tr>
+<td>{{ ngo.id }}</td>
+<td>{{ ngo.name }}</td>
+<td>{{ ngo.email }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

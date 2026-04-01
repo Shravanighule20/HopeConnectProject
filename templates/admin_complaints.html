@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid">
+
+<h2 class="mb-4">
+<i class="fa fa-exclamation-circle"></i> All Complaints
+</h2>
+
+<div class="row">
+
+{% for c in complaints %}
+
+<div class="col-md-6">
+
+<div class="card shadow mb-4">
+
+<img src="{{ url_for('static', filename='uploads/' + c.image) }}"
+class="card-img-top"
+style="height:220px; object-fit:cover;">
+
+
+<div class="card-body">
+
+<h5 class="card-title">{{ c.title }}</h5>
+
+<p class="text-muted">{{ c.description }}</p>
+
+<p>
+<b>Category:</b> {{ c.category }}
+</p>
+
+
+<p>
+<b>Priority:</b>
+
+<span class="badge
+{% if c.priority=='High' %}bg-danger
+{% elif c.priority=='Medium' %}bg-warning
+{% else %}bg-secondary
+{% endif %}
+">
+
+{{ c.priority }}
+
+</span>
+
+</p>
+
+
+<p>
+<b>Status:</b>
+
+<span class="badge
+{% if c.status=='Pending' %}bg-warning
+{% elif c.status=='Assigned' %}bg-primary
+{% else %}bg-success
+{% endif %}
+">
+
+{{ c.status }}
+
+</span>
+
+</p>
+
+
+{% if c.ngo_name %}
+
+<p class="mt-2">
+<i class="fa fa-building"></i>
+Assigned NGO: <b>{{ c.ngo_name }}</b>
+</p>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0072ff, #00c6ff);
+    min-height: 100vh;
+}
+
+/* NAVBAR */
+.navbar {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.navbar a {
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 600;
+    color: #0072ff;
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    color: #0056cc;
+}
+
+/* CONTAINER */
+.container {
+    width: 85%;
+    margin: 40px auto;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 45px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 20px;
+    opacity: 0.9;
+}
+
+/* CARD */
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* HEADINGS */
+h2 {
+    margin-bottom: 20px;
+}
+
+h3 {
+    margin: 20px 0;
+}
+
+/* INPUT FIELDS */
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+/* BUTTON */
+button {
+    background: #0072ff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #0056cc;
+}
+
+/* REPORT STATUS COLORS */
+.status-pending {
+    color: orange;
+    font-weight: bold;
+}
+
+.status-progress {
+    color: #0072ff;
+    font-weight: bold;
+}
+
+.status-resolved {
+    color: green;
+    font-weight: bold;
+}

@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid">
+
+<h2 class="mb-4">
+<i class="fa fa-hand-holding-heart"></i> NGO Dashboard
+</h2>
+
+<!-- NGO STATISTICS -->
+
+<div class="row text-center mb-4">
+
+<div class="col-md-4">
+<div class="card shadow p-4 text-white" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
+<i class="fa fa-list fa-2x mb-2"></i>
+<h6>Assigned Cases</h6>
+<h3>{{ assigned_count }}</h3>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card shadow p-4 text-dark" style="background:linear-gradient(135deg,#facc15,#fbbf24)">
+<i class="fa fa-clock fa-2x mb-2"></i>
+<h6>Pending Cases</h6>
+<h3>{{ pending_count }}</h3>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card shadow p-4 text-white" style="background:linear-gradient(135deg,#16a34a,#15803d)">
+<i class="fa fa-check-circle fa-2x mb-2"></i>
+<h6>Resolved Cases</h6>
+<h3>{{ resolved_count }}</h3>
+</div>
+</div>
+
+</div>
+
+<!-- COMPLAINT LIST -->
+
+<div class="row">
+
+{% for c in complaints %}
+
+<div class="col-md-6">
+
+<!-- URGENT CARD -->
+{% if c.priority == "High" %}
+<div class="card shadow mb-4 border border-danger">
+<div class="badge bg-danger position-absolute m-2">🚨 URGENT</div>
+{% else %}
+<div class="card shadow mb-4">
+{% endif %}
+
+<!-- BEFORE IMAGE -->
+{% if c.image %}
+<img src="{{ url_for('static', filename='uploads/' + c.image) }}"
+class="card-img-top"
+style="height:220px; object-fit:cover;">
+{% endif %}
+
+<div class="card-body">
+
+<h5 class="card-title">{{ c.title }}</h5>
+
+<p class="text-muted">{{ c.description }}</p>
+
+<p><b>Category:</b> {{ c.category }}</p>
+
+<p>
+<b>Priority:</b>
+<span class="badge
+{% if c.priority=='High' %}bg-danger
+{% elif c.priority=='Medium' %}bg-warning
+{% else %}bg-secondary
+{% endif %}
+">
+{{ c.priority }}
+</span>
+</p>
+
+<p>
+<b>Status:</b>
+<span class="badge
+{% if c.status == 'Pending' %}bg-warning
+{% elif c.status == 'Assigned' %}bg-primary
+{% else %}bg-success
+{% endif %}
+">
+{{ c.status }}
+</span>
+</p>
+
+<!-- 📍 LOCATION (FIXED POSITION) -->
+{% if c.latitude and c.longitude %}
+<a href="https://www.google.com/maps?q={{ c.latitude }},{{ c.longitude }}"
+target="_blank"
+class="btn btn-outline-primary btn-sm mt-2">
+📍 View Location
+</a>
+{% endif %}
+
+<!-- AFTER IMAGE -->
+{% if c.after_image %}
+<div class="mt-3">
+<h6>After Resolution:</h6>
+<img src="{{ url_for('static', filename='uploads/' + c.after_image) }}"
+style="height:200px; width:100%; object-fit:cover; border-radius:10px;">
+</div>
+{% endif %}
+
+<!-- STATUS ACTION -->
+
+{% if c.status == "Assigned" %}
+
+<form method="POST" action="/resolve_case/{{ c.id }}" enctype="multipart/form-data">
+
+<input type="file" name="after_image" class="form-control mb-2" required>
+
+<button class="btn btn-success w-100">
+<i class="fa fa-check-circle"></i> Upload & Mark Resolved
+</button>
+
+</form>
+
+{% elif c.status == "Resolved" %}
+
+<div class="alert alert-success text-center mt-2">
+✔ Case Resolved
+</div>
+
+{% else %}
+
+<div class="alert alert-warning text-center mt-2">
+Pending Approval by Admin
+</div>
+
+{% endif %}
+
+</div>
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}

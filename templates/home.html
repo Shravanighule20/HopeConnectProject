@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>HopeConnect - Rescue Platform</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+body{
+font-family: 'Segoe UI', sans-serif;
+background:#f5f7fb;
+}
+
+/* HERO SECTION */
+
+.hero{
+
+background-image:
+linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+url("{{ url_for('static', filename='hero.jpg') }}");
+
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+
+height:90vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:white;
+
+}
+
+.hero h1{
+font-size:60px;
+font-weight:700;
+}
+
+.hero p{
+font-size:20px;
+margin-top:20px;
+}
+
+.hero-btn{
+padding:12px 30px;
+font-size:18px;
+border-radius:30px;
+margin-top:25px;
+}
+
+/* FEATURES */
+
+.feature-card{
+background:white;
+border-radius:15px;
+padding:30px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.feature-card:hover{
+transform:translateY(-8px);
+}
+
+.feature-icon{
+font-size:40px;
+margin-bottom:15px;
+color:#2563eb;
+}
+
+/* HOW IT WORKS */
+
+.step-box{
+text-align:center;
+padding:30px;
+}
+
+.step-number{
+font-size:35px;
+font-weight:bold;
+color:#2563eb;
+}
+
+/* FOOTER */
+
+footer{
+background:#111;
+color:white;
+padding:25px;
+margin-top:60px;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<div class="container">
+
+<a class="navbar-brand fw-bold" href="/">
+<i class="fa-solid fa-shield-heart"></i> HopeConnect
+</a>
+
+<div>
+
+{% if session.get("user_id") %}
+
+<a href="/dashboard" class="btn btn-primary me-2">
+<i class="fa fa-chart-line"></i> Dashboard
+</a>
+
+<a href="/logout" class="btn btn-danger">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
+
+{% else %}
+
+<a href="/login" class="btn btn-success me-2">
+<i class="fa fa-sign-in-alt"></i> Login
+</a>
+
+<a href="/register" class="btn btn-warning">
+<i class="fa fa-user-plus"></i> Register
+</a>
+
+{% endif %}
+
+</div>
+
+</div>
+</nav>
+
+
+<!-- HERO SECTION -->
+
+<section class="hero">
+
+<div>
+
+<h1>HopeConnect</h1>
+
+<p>
+Helping citizens report injured animals and homeless people
+so NGOs can respond quickly.
+</p>
+
+{% if not session.get("user_id") %}
+
+<a href="/register" class="btn btn-light hero-btn">
+Get Started
+</a>
+
+{% endif %}
+
+</div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<div class="container mt-5">
+
+<h2 class="text-center mb-5 fw-bold">
+Platform Features
+</h2>
+
+<div class="row g-4 text-center">
+
+<div class="col-md-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="fa fa-bullhorn"></i>
+</div>
+
+<h4>Easy Complaint Reporting</h4>
+
+<p>
+Users can quickly submit rescue complaints with images
+and descriptions.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="fa fa-hand-holding-heart"></i>
+</div>
+
+<h4>NGO Collaboration</h4>
+
+<p>
+NGOs receive assigned complaints and resolve rescue
+cases efficiently.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="col-md-4">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+<i class="fa fa-chart-pie"></i>
+</div>
+
+<h4>Admin Monitoring</h4>
+
+<p>
+Admins track complaints, manage NGOs, and view
+analytics dashboards.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- HOW IT WORKS -->
+
+<div class="container mt-5">
+
+<h2 class="text-center fw-bold mb-5">
+How It Works
+</h2>
+
+<div class="row">
+
+<div class="col-md-4 step-box">
+
+<div class="step-number">1</div>
+
+<h4>Report Issue</h4>
+
+<p>User submits complaint with photo.</p>
+
+</div>
+
+
+<div class="col-md-4 step-box">
+
+<div class="step-number">2</div>
+
+<h4>Admin Assigns NGO</h4>
+
+<p>Admin reviews and assigns rescue team.</p>
+
+</div>
+
+
+<div class="col-md-4 step-box">
+
+<div class="step-number">3</div>
+
+<h4>Rescue Completed</h4>
+
+<p>NGO resolves the issue and updates status.</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<p>© 2026 HopeConnect </p>
+
+</footer>
+
+
+</body>
+</html>

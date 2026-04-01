@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid">
+
+<h2 class="mb-4">
+<i class="fa fa-user"></i> User Dashboard
+</h2>
+
+<!-- SUBMIT COMPLAINT -->
+
+<div class="card shadow p-4 mb-5">
+
+<h4 class="mb-3">
+<i class="fa fa-bullhorn"></i> Submit Complaint
+</h4>
+
+<form method="POST" enctype="multipart/form-data">
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+<label class="form-label">Complaint Title</label>
+<input type="text" name="title" class="form-control" required>
+</div>
+
+<div class="col-md-6 mb-3">
+<label class="form-label">Category</label>
+<select name="category" class="form-select" required>
+<option value="">Select Category</option>
+<option>Dog</option>
+<option>Cat</option>
+<option>Homeless Person</option>
+</select>
+</div>
+
+</div>
+
+<div class="mb-3">
+<label>Description</label>
+<textarea name="description" class="form-control" required></textarea>
+</div>
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+<label>Priority</label>
+<select name="priority" class="form-select" required>
+<option value="">Select Priority</option>
+<option>High</option>
+<option>Medium</option>
+<option>Low</option>
+</select>
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Upload Image</label>
+<input type="file" name="image" class="form-control" id="imageInput" required>
+</div>
+
+</div>
+
+<!-- 📍 LOCATION -->
+
+<input type="hidden" name="latitude" id="latitude">
+<input type="hidden" name="longitude" id="longitude">
+
+<button type="button" class="btn btn-info mb-3" onclick="getLocation()">
+📍 Detect Location
+</button>
+
+<!-- IMAGE PREVIEW -->
+
+<div class="mb-3 text-center">
+<img id="preview" style="max-height:200px; display:none; border-radius:10px;">
+</div>
+
+<button class="btn btn-primary">
+<i class="fa fa-paper-plane"></i> Submit Complaint
+</button>
+
+</form>
+
+</div>
+
+<!-- USER COMPLAINTS -->
+
+<h4 class="mb-4">
+<i class="fa fa-list"></i> Your Complaints
+</h4>
+
+<div class="row">
+
+{% for c in complaints %}
+
+<div class="col-md-4">
+
+<div class="card shadow mb-4">
+
+{% if c.image %}
+<img src="{{ url_for('static', filename='uploads/' + c.image) }}"
+class="card-img-top"
+style="height:200px; object-fit:cover;">
+{% endif %}
+
+<div class="card-body">
+
+<h5>{{ c.title }}</h5>
+
+<p class="text-muted">{{ c.description }}</p>
+
+<p><b>Category:</b> {{ c.category }}</p>
+
+<p>
+<b>Priority:</b>
+<span class="badge
+{% if c.priority=='High' %}bg-danger
+{% elif c.priority=='Medium' %}bg-warning text-dark
+{% else %}bg-secondary
+{% endif %}
+">
+{{ c.priority }}
+</span>
+</p>
+
+<p>
+<b>Status:</b>
+<span class="badge
+{% if c.status=='Pending' %}bg-warning text-dark
+{% elif c.status=='Assigned' %}bg-primary
+{% else %}bg-success
+{% endif %}
+">
+{{ c.status }}
+</span>
+</p>
+
+<!-- 📍 VIEW LOCATION -->
+
+{% if c.latitude and c.longitude %}
+<a href="https://www.google.com/maps?q={{ c.latitude }},{{ c.longitude }}"
+target="_blank"
+class="btn btn-outline-primary btn-sm mt-2">
+📍 View Location
+</a>
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+<!-- ✅ SCRIPTS -->
+
+<script>
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+
+            document.getElementById("latitude").value = position.coords.latitude;
+            document.getElementById("longitude").value = position.coords.longitude;
+
+            alert("Location captured successfully!");
+
+        });
+    } else {
+        alert("Geolocation not supported");
+    }
+}
+
+// IMAGE PREVIEW
+
+document.getElementById("imageInput").onchange = function(event){
+
+const file = event.target.files[0];
+
+if(file){
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+const preview = document.getElementById("preview");
+preview.src = e.target.result;
+preview.style.display = "block";
+}
+
+reader.readAsDataURL(file);
+
+}
+
+};
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid">
+
+<h2 class="mb-4">
+<i class="fa-solid fa-chart-line"></i> Admin Dashboard
+</h2>
+
+<!-- NGO PERFORMANCE -->
+
+<div class="card p-4 mb-4 shadow">
+<h5>🏆 Top NGOs (Performance)</h5>
+
+{% for n in ngo_stats %}
+<p><b>{{ n.name }}</b> - {{ n.total }} cases solved</p>
+{% else %}
+<p>No data yet</p>
+{% endfor %}
+
+</div>
+
+<!-- COMPLAINTS -->
+
+<div class="row">
+
+{% for c in complaints %}
+
+<div class="col-md-6">
+
+{% if c.priority == "High" %}
+<div class="card shadow mb-4 border border-danger">
+<div class="badge bg-danger position-absolute m-2">🚨 URGENT</div>
+{% else %}
+<div class="card shadow mb-4">
+{% endif %}
+
+{% if c.image %}
+<img src="{{ url_for('static', filename='uploads/' + c.image) }}"
+style="height:200px; width:100%; object-fit:cover;">
+{% endif %}
+
+<div class="card-body">
+
+<h5>{{ c.title }}</h5>
+
+<p>{{ c.description }}</p>
+
+<p><b>Category:</b> {{ c.category }}</p>
+
+<p>
+<b>Priority:</b>
+<span class="badge
+{% if c.priority=='High' %}bg-danger
+{% elif c.priority=='Medium' %}bg-warning
+{% else %}bg-secondary
+{% endif %}
+">
+{{ c.priority }}
+</span>
+</p>
+
+<p>
+<b>Status:</b>
+<span class="badge
+{% if c.status == 'Pending' %}bg-warning
+{% elif c.status == 'Assigned' %}bg-primary
+{% else %}bg-success
+{% endif %}
+">
+{{ c.status }}
+</span>
+</p>
+
+<!-- 📍 LOCATION FIX -->
+{% if c.latitude and c.longitude %}
+<a href="https://www.google.com/maps?q={{ c.latitude }},{{ c.longitude }}"
+target="_blank"
+class="btn btn-outline-primary btn-sm mt-2">
+📍 View Location
+</a>
+{% endif %}
+
+<!-- AFTER IMAGE -->
+{% if c.after_image %}
+<p class="mt-2"><b>After Image:</b></p>
+<img src="{{ url_for('static', filename='uploads/' + c.after_image) }}"
+style="height:150px; width:100%; object-fit:cover;">
+{% endif %}
+
+{% if not c.ngo_id %}
+
+<form method="POST" action="/assign_ngo/{{ c.id }}">
+
+<select name="ngo_id" class="form-select mb-2" required>
+<option value="">Select NGO</option>
+
+{% for ngo in ngos %}
+<option value="{{ ngo.id }}">{{ ngo.name }}</option>
+{% endfor %}
+
+</select>
+
+<button class="btn btn-dark btn-sm w-100">
+Assign NGO
+</button>
+
+</form>
+
+{% else %}
+
+<p>Assigned NGO: <b>{{ c.ngo_name }}</b></p>
+
+{% endif %}
+
+</div>
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}

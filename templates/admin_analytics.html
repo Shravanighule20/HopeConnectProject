@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Analytics Dashboard</h2>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row mt-5">
+
+<div class="col-md-6">
+<canvas id="categoryChart"></canvas>
+</div>
+
+<div class="col-md-6">
+<canvas id="priorityChart"></canvas>
+</div>
+
+</div>
+
+
+<script>
+
+const categoryChart = new Chart(
+document.getElementById('categoryChart'),
+{
+type: 'pie',
+data: {
+labels: ['Dog','Cat','Homeless Person'],
+datasets: [{
+data: [{{dog_count}},{{cat_count}},{{human_count}}],
+backgroundColor: ['#ff6384','#36a2eb','#ffce56']
+}]
+}
+});
+
+const priorityChart = new Chart(
+document.getElementById('priorityChart'),
+{
+type: 'bar',
+data: {
+labels: ['High','Medium','Low'],
+datasets: [{
+data: [{{high_priority}},{{medium_priority}},{{low_priority}}],
+backgroundColor: ['#dc3545','#ffc107','#6c757d']
+}]
+}
+});
+
+</script>
+
+{% endblock %}
